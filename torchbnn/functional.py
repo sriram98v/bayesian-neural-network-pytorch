@@ -1,7 +1,7 @@
 import math
 import torch
 
-from .modules import *
+from .nn import *
 
 def _kl_loss(mu_0, log_sigma_0, mu_1, log_sigma_1) :
     """

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from ..modules import *
+from ..nn import *
 
 bayes_layer = (BayesLinear, BayesConv2d, BayesBatchNorm2d)  
 
