@@ -75,12 +75,6 @@ class _BayesBatchNorm(Module):
             self.bias_mu.data.zero_()
             self.bias_log_sigma.data.fill_(self.prior_log_sigma)
             
-            # Initilization method of the original torch nn.batchnorm.
-#             init.ones_(self.weight_mu)
-#             self.weight_log_sigma.data.fill_(self.prior_log_sigma)
-#             init.zeros_(self.bias_mu)
-#             self.bias_log_sigma.data.fill_(self.prior_log_sigma)
-
     def freeze(self) :
         if self.affine :
             self.weight_eps = torch.randn_like(self.weight_log_sigma)
