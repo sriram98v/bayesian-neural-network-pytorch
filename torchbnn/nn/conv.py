@@ -77,14 +77,25 @@ class _BayesConvNd(Module):
 
     def reset_parameters(self):
         # Initialization method of Adv-BNN.
-        n = self.in_channels
-        n *= self.kernel_size[0] ** 2
-        stdv = 1.0 / math.sqrt(n)
-        self.weight_mu.data.uniform_(-stdv, stdv)
-        self.weight_log_sigma.data.fill_(self.prior_log_sigma)
+        # n = self.in_channels
+        # n *= self.kernel_size[0] ** 2
+        # stdv = 1.0 / math.sqrt(n)
+        # self.weight_mu.data.uniform_(-stdv, stdv)
+        # self.weight_log_sigma.data.fill_(self.prior_log_sigma)
 
+        # if self.bias :
+        #     self.bias_mu.data.uniform_(-stdv, stdv)
+        #     self.bias_log_sigma.data.fill_(self.prior_log_sigma)
+
+        # Initialization method of the original torch nn.conv.
+        init.kaiming_uniform_(self.weight_mu, a=math.sqrt(5))
+        self.weight_log_sigma.data.fill_(self.prior_log_sigma)
+        # 
         if self.bias :
-            self.bias_mu.data.uniform_(-stdv, stdv)
+            fan_in, _ = init._calculate_fan_in_and_fan_out(self.weight_mu)
+            bound = 1 / math.sqrt(fan_in)
+            init.uniform_(self.bias_mu, -bound, bound)
+        #    
             self.bias_log_sigma.data.fill_(self.prior_log_sigma)
 
     def freeze(self) :
